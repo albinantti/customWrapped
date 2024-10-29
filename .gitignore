@@ -4,3 +4,4 @@ output/*.csv
 .vscode
 .idea
 .DS_Store
+.gitconfig
