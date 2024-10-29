@@ -1,0 +1,6 @@
+input/*.json
+output/*.csv
+.env
+.vscode
+.idea
+.DS_Store
