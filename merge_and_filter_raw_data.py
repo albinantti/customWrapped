@@ -14,7 +14,7 @@ def union_json_files(directory):
     """
     # List files in the directory that start with "Streaming_" and end with ".json"
     file_paths = [os.path.join(directory, file) for file in os.listdir(directory) 
-                  if file.startswith("Streaming_") and file.endswith(".json")]
+                  if file.startswith("Streaming_HIstory_Audio") and file.endswith(".json")]
     
     # Initialize an empty list to store dataframes
     dfs = []
@@ -83,4 +83,6 @@ directory = r"input"
 
 # Union the files
 unioned_df = union_json_files(directory)
-unioned_df.to_csv(directory + "_full_streaming_history.csv")
+unioned_df.to_csv("full_streaming_history.csv")
+
+print("Successfully merged streaminig history and placed in output folder.")
