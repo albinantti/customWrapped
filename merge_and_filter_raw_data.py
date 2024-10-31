@@ -81,11 +81,13 @@ def union_json_files(directory):
 
 def to_csv(df):
     df.to_csv("output/full_streaming_history.csv")
+    print("Successfully merged streaming history and placed in output folder.")
 
 def to_sql(df):
     conn = sl.connect('streams.db')
     df.to_sql('table_name', conn, if_exists='replace', index=False)
     conn.close()
+    print("Successfully merged streaming history and placed in sqlite db file.")
 
 # Directory containing the JSON files
 directory = r"input"
@@ -95,8 +97,5 @@ unioned_df = union_json_files(directory)
 
 
 #Uncomment the one you want depending on if you want it as csv or as sqlite db.
-#to_sql(unioned_df)
+to_sql(unioned_df)
 #to_csv(unioned_df)
-
-
-print("Successfully merged streaming history and placed in output folder.")
