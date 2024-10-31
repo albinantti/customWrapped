@@ -1,6 +1,7 @@
 import os
 import json
 import pandas as pd
+import sqlite3 as sl
 
 def union_json_files(directory):
     """
@@ -20,13 +21,13 @@ def union_json_files(directory):
     dfs = []
     
     # Read the structure of the first file to set as a reference
-    with open(file_paths[0], "r") as file:
+    with open(file=file_paths[0], mode="r", encoding="utf-8") as file:
         sample_data = json.load(file)
     sample_df = pd.DataFrame(sample_data)
     
     # Iterate over each file path
     for path in file_paths:
-        with open(path, "r") as file:
+        with open(file=path, mode="r", encoding="utf-8") as file:
             data = json.load(file)
         
         # Convert the JSON data into a dataframe
@@ -78,11 +79,24 @@ def union_json_files(directory):
 
     return result_df
 
+def to_csv(df):
+    df.to_csv("output/full_streaming_history.csv")
+
+def to_sql(df):
+    conn = sl.connect('streams.db')
+    df.to_sql('table_name', conn, if_exists='replace', index=False)
+    conn.close()
+
 # Directory containing the JSON files
 directory = r"input"
 
 # Union the files
 unioned_df = union_json_files(directory)
-unioned_df.to_csv("output/full_streaming_history.csv")
+
+
+#Uncomment the one you want depending on if you want it as csv or as sqlite db.
+#to_sql(unioned_df)
+#to_csv(unioned_df)
+
 
 print("Successfully merged streaming history and placed in output folder.")
